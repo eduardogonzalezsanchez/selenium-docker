@@ -6,19 +6,19 @@ pipeline{
 
         stage('Build Jar'){
             steps{
-                sh "mvn clean package -DskipTests"
+                bat "mvn clean package -DskipTests"
             }
         }
 
         stage('Build Image'){
             steps {
-                sh "docker build -t=edulafragua/selenium ."
+                bat "docker build -t=edulafragua/selenium ."
             }
         }
 
         stage('Push image'){
             steps{
-                sh "docker push edulafragua/selenium"
+                bat "docker push edulafragua/selenium"
             }
         }
 
