@@ -17,6 +17,7 @@ pipeline{
                    if(fileExists('jenkins-ci-cd/10-runner-approach-1/output/flight-reservation/testng-failed.xml') || fileExists('jenkins-ci-cd/10-runner-approach-1/output/vendor-portal/testng-failed.xml')){
                        error('failed tests found')
                    }
+               }
             }
         }
 
