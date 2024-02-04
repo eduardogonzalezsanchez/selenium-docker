@@ -10,15 +10,15 @@ pipeline{
 
         stage('Start Grid'){
             steps{
-                 //bat "docker-compose -f jenkins-ci-cd/aws/grid.yaml up -d"
-                 bat "docker-compose -f jenkins-ci-cd/aws/grid.yaml up --scale %params.BROWSER%=1 -d"
+                 sh "docker-compose -f jenkins-ci-cd/aws/grid.yaml up -d"
+                 //bat "docker-compose -f jenkins-ci-cd/aws/grid.yaml up --scale %params.BROWSER%=1 -d"
             }
         }
 
         stage('Run Test'){
             steps{
                 //--pull=always es para forzar la ultima versión
-                bat "docker-compose -f jenkins-ci-cd/aws/test-suites.yaml up --pull=always"
+                sh "docker-compose -f jenkins-ci-cd/aws/test-suites.yaml up --pull=always"
                 script {
                 //traemos failed.xml a la pantalla de Jenkins y de esa manera se puede comprobar los errores
                     if(fileExists('jenkins-ci-cd/aws/output/flight-reservation/testng-failed.xml') || fileExists('jenkins-ci-cd/aws/output/vendor-portal/testng-failed.xml')){
