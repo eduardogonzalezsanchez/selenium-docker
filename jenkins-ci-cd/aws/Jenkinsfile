@@ -32,8 +32,8 @@ pipeline{
 
     post {
         always {
-            bat "docker-compose -f jenkins-ci-cd/11-runner-approach-2/grid.yaml down"
-            bat "docker-compose -f jenkins-ci-cd/11-runner-approach-2/test-suites.yaml down"
+            sh "docker-compose -f jenkins-ci-cd/11-runner-approach-2/grid.yaml down"
+            sh "docker-compose -f jenkins-ci-cd/11-runner-approach-2/test-suites.yaml down"
             //se trae el resultado de la ejecución exitosa a la pantalla de Jenkins
             archiveArtifacts artifacts: 'jenkins-ci-cd/11-runner-approach-2/output/flight-reservation/emailable-report.html', followSymlinks: false
             archiveArtifacts artifacts: 'jenkins-ci-cd/11-runner-approach-2/output/vendor-portal/emailable-report.html', followSymlinks: false
