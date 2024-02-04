@@ -1,0 +1,43 @@
+pipeline{
+
+    agent any
+
+    parameters {
+        choice choices: ['chrome', 'firefox'], description: 'Select the browser', name: 'BROWSER'
+    }
+
+    stages{
+
+        stage('Start Grid'){
+            steps{
+                 //bat "docker-compose -f jenkins-ci-cd/aws/grid.yaml up -d"
+                 bat "docker-compose -f jenkins-ci-cd/aws/grid.yaml up --scale %params.BROWSER%=1 -d"
+            }
+        }
+
+        stage('Run Test'){
+            steps{
+                //--pull=always es para forzar la ultima versión
+                bat "docker-compose -f jenkins-ci-cd/aws/test-suites.yaml up --pull=always"
+                script {
+                //traemos failed.xml a la pantalla de Jenkins y de esa manera se puede comprobar los errores
+                    if(fileExists('jenkins-ci-cd/aws/output/flight-reservation/testng-failed.xml') || fileExists('jenkins-ci-cd/aws/output/vendor-portal/testng-failed.xml')){
+                        error('failed tests found')
+                    }
+                }
+            }
+        }
+
+    }
+
+    post {
+        always {
+            bat "docker-compose -f jenkins-ci-cd/11-runner-approach-2/grid.yaml down"
+            bat "docker-compose -f jenkins-ci-cd/11-runner-approach-2/test-suites.yaml down"
+            //se trae el resultado de la ejecución exitosa a la pantalla de Jenkins
+            archiveArtifacts artifacts: 'jenkins-ci-cd/11-runner-approach-2/output/flight-reservation/emailable-report.html', followSymlinks: false
+            archiveArtifacts artifacts: 'jenkins-ci-cd/11-runner-approach-2/output/vendor-portal/emailable-report.html', followSymlinks: false
+        }
+    }
+
+}
