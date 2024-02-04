@@ -23,9 +23,9 @@ while [ "$( curl -s http://${HUB_HOST:-hub}:4444/status | jq -r .value.ready )" 
 do
   count=$((count+1))
   echo "Attempt: ${count}"
-  if [ "$count" -ge 300 ]
+  if [ "$count" -ge 3000 ]
   then
-      echo "**** HUB IS NOT READY WITHIN 30 SECONDS ****"
+      echo "**** HUB IS NOT READY WITHIN 3000 SECONDS ****"
       exit 1
   fi
   sleep 1
