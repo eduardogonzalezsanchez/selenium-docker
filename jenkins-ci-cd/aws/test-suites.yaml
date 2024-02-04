@@ -9,12 +9,12 @@ services:
     - TEST_SUITE=vendor-portal.xml
     volumes:
     - ./output/vendor-portal:/home/selenium-docker/test-output
-  flight-reservation:
-    image: edulafragua/selenium
-    environment:
-    - BROWSER
-    - HUB_HOST=hub    
-    - THREAD_COUNT=1
-    - TEST_SUITE=flight-reservation.xml
-    volumes:
-    - ./output/flight-reservation:/home/selenium-docker/test-output     
+  #flight-reservation:
+   # image: edulafragua/selenium
+    #environment:
+    #- BROWSER
+    #- HUB_HOST=hub
+    #- THREAD_COUNT=1
+    #- TEST_SUITE=flight-reservation.xml
+    #volumes:
+    #- ./output/flight-reservation:/home/selenium-docker/test-output
